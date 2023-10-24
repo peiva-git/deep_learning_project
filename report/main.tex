@@ -9,19 +9,13 @@
 \usepackage{amsmath}
 \usepackage[utf8]{inputenc} % Consente l'uso dei caratteri accentati italiani
 \usepackage{graphicx} % Consente l'inserimento delle figure nel documento
+\usepackage{fancyhdr} % Consente il rendering della copertina
 \usepackage{hyperref}
 
 \input{settings/settings}
 
 \begin{document}
-    \title{\huge{Deep Learning course project report}}
-    \author{Federico Calandra, Ivan Pelizon}
-    \begin{figure}[h]
-        \centering
-        \includegraphics[width=6cm,height=6cm]{img/units_sigillo_pantone-534}
-    \end{figure}
-    \pagebreak
-
+    \include{front/header}
     {\hypersetup{linkcolor=black}
         \tableofcontents
     }
@@ -32,5 +26,4 @@
     \newpage
     \bibliography{bib/bibliography}
     \bibliographystyle{plain}
-
 \end{document}
