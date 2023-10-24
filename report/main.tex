@@ -1,0 +1,29 @@
+%! Author = peiva
+%! Date = 24/10/23
+
+% Preamble
+\documentclass[a4paper,11pt,openany]{article}
+
+% Packages
+\usepackage[english]{babel}
+\usepackage{amsmath}
+\usepackage[utf8]{inputenc} % Consente l'uso dei caratteri accentati italiani
+\usepackage{graphicx} % Consente l'inserimento delle figure nel documento
+\usepackage{fancyhdr} % Consente il rendering della copertina
+\usepackage{hyperref}
+
+\input{settings/settings}
+
+\begin{document}
+    \include{front/header}
+    {\hypersetup{linkcolor=black}
+        \tableofcontents
+    }
+    \newpage
+
+    \input{sections/abstract}
+
+    \newpage
+    \bibliography{bib/bibliography}
+    \bibliographystyle{plain}
+\end{document}

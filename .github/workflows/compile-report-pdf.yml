@@ -1,0 +1,26 @@
+name: Build LaTeX report
+on:
+  push:
+    branches: ["main"]
+
+  workflow_dispatch:
+
+jobs:
+  build-latex:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up git repository
+        uses: actions/checkout@v3
+      - name: Install texlive
+        uses: DanySK/setup-texlive-action@master
+        with:
+          requirements-file: .github/texlive/requirements.txt
+      - name: Compile with latexmk
+        run: |
+          cd report/
+          latexmk
+      - name: Upload pdf file
+        uses: actions/upload-artifact@v3
+        with:
+          name: PDF
+          path: report/out/main.pdf

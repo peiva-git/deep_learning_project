@@ -1,0 +1,6 @@
+texlive
+cm-super
+texlive-pictures
+texlive-latex-extra
+texlive-lang-italian
+latexmk
