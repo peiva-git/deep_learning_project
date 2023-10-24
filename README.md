@@ -18,3 +18,13 @@ Alternatively, to install the CPU version, run:
 ```shell
 conda create --name dl-tf --file conda/tf-cpu.yml
 ```
+
+## Compile report
+
+The project report is provided as a set of LaTeX source files.
+The build process is managed using [latexmk](https://mg.readthedocs.io/latexmk.html).
+In order to compile the output `main.pdf` file, simply run the following commands:
+```shell
+cd report/
+latexmk
+```
