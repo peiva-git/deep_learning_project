@@ -1,1 +1,1 @@
-from mnist_dataset import MNISTDatasetBuilder
+from .mnist_dataset import MNISTDatasetBuilder
