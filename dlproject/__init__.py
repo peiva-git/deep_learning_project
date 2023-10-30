@@ -1,2 +1,2 @@
-import models
-import data
+from . import models
+from . import data
