@@ -9,8 +9,8 @@ class MNISTDatasetBuilder:
     __noisy_test_data: np.ndarray
 
     def __init__(self):
-        (self.__train_data, ), (self.__test_data) = tf.keras.datasets.mnist.load_data()
-
+        (self.__train_data, _), (self.__test_data, _) = tf.keras.datasets.mnist.load_data()
+        
     def preprocess_dataset(self):
         self.__train_data = self.__preprocess_array(self.__train_data)
         self.__test_data = self.__preprocess_array(self.__test_data)
