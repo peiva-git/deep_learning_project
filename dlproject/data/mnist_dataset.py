@@ -11,11 +11,17 @@ class MNISTDatasetBuilder:
     def __init__(self):
         (self.__train_data, _), (self.__test_data, _) = tf.keras.datasets.mnist.load_data()
         
-    def preprocess_dataset(self):
+    def preprocess_dataset_simple_ae(self):
         self.__train_data = self.__preprocess_array(self.__train_data)
         self.__test_data = self.__preprocess_array(self.__test_data)
         self.__noisy_train_data = self.__add_noise(self.__train_data)
         self.__noisy_test_data = self.__add_noise(self.__test_data)
+
+    def preprocess_dataset_simple_vae(self):
+        self.__train_data = self.__train_data.astype(np.float32) / 255.
+        self.__test_data = self.__test_data.astype(np.float32) / 255.
+        self.__train_data = self.__train_data.reshape((len(self.__train_data), np.prod(self.__train_data.shape[1:])))
+        self.__test_data = self.__test_data.reshape((len(self.__test_data), np.prod(self.__test_data.shape[1:])))
 
     @staticmethod
     def __preprocess_array(array: np.ndarray) -> np.ndarray:
