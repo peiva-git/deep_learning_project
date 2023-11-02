@@ -6,7 +6,7 @@
       <excludeFolder url="file://$MODULE_DIR$/output" />
       <excludeFolder url="file://$MODULE_DIR$/report/out" />
     </content>
-    <orderEntry type="jdk" jdkName="Python 3.10 (deep_learning_project)" jdkType="Python SDK" />
+    <orderEntry type="jdk" jdkName="Python 3.9 (dl-tf)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
 </module>
