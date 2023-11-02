@@ -26,6 +26,15 @@ class SimpleVAE:
         outputs = self.__decoder(self.__encoder(inputs)[2])
         self.__vae = tf.keras.Model(inputs, outputs, name='vae_mlp')
 
+        # custom loss
+        reconstruction_loss = tf.keras.losses.binary_crossentropy(inputs, outputs)
+        reconstruction_loss *= input_dim
+        kl_loss = 1 + self.__z_log_sigma - tf.keras.backend.square(self.__z_mean) - tf.exp(self.__z_log_sigma)
+        kl_loss = tf.reduce_sum(kl_loss, axis=-1)
+        kl_loss *= -0.5
+        vae_loss = tf.reduce_mean(reconstruction_loss + kl_loss)
+        self.__vae.add_loss(vae_loss)
+
     def sample(self, args: (tf.Tensor, tf.Tensor)) -> tf.Tensor:
         mean, log_sigma = args
         epsilon = tf.keras.backend.random_normal(
