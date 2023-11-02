@@ -1,1 +1,1 @@
-from .simple_model import SimpleAutoencoder
+from .simple_autoencoder import SimpleAutoencoder
