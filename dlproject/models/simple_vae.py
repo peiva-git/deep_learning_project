@@ -36,13 +36,13 @@ class SimpleVAE:
         return mean + tf.exp(log_sigma) * epsilon
 
     @property
-    def encoder(self):
+    def encoder(self) -> tf.keras.Model:
         return self.__encoder
 
     @property
-    def decoder(self):
+    def decoder(self) -> tf.keras.Model:
         return self.__decoder
 
     @property
-    def vae(self):
+    def vae(self) -> tf.keras.Model:
         return self.__vae
