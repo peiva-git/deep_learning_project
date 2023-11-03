@@ -16,7 +16,7 @@ class SimpleAutoencoder:
         x = tf.keras.layers.Conv2DTranspose(32, (3, 3), strides=2, activation='relu', padding='same')(x)
         x = tf.keras.layers.Conv2D(input_shape[-1], (3, 3), activation='sigmoid', padding='same')(x)
 
-        self.__model = tf.keras.Model(input_tensor, x)
+        self.__model = tf.keras.Model(input_tensor, x, name='simple_autoencoder')
 
     @property
     def model(self):
