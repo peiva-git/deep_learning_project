@@ -33,7 +33,7 @@ class RENOIRDatasetBuilder:
             batch_name = os.path.dirname(image_path)
 
             if batch_name not in processed_batches:
-                # Only process one image from each batch
+                # Only process one image from each batch (in the RENOIR dataset there are 2 noisy images fo each batch)
                 processed_batches.add(batch_name)
 
                 image = cv2.imread(image_path)
@@ -41,7 +41,6 @@ class RENOIRDatasetBuilder:
                 if image is not None:
                     # Resize the image to the target size
                     image = cv2.resize(image, target_size)
-                    # You can add additional preprocessing if needed
                     test_data.append(image)
 
         return np.array(test_data)
