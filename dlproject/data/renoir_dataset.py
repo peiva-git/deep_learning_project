@@ -2,53 +2,52 @@ import os
 import glob
 import cv2
 import numpy as np
+from tensorflow.keras.utils import Sequence
 
 
-class RENOIRDatasetBuilder:
-    __test_data_clean: np.ndarray
-    __test_data_noisy: np.ndarray
-
-    def __init__(self, dataset_folder, dataset_type):
+class RENOIRDatasetSequence(Sequence):
+    def __init__(self, dataset_folder, dataset_type, batch_size, target_size=(5328, 3000)):
         if dataset_type not in ['Mi3_Aligned', 'T3i_Aligned']:
             raise ValueError("Invalid dataset type. Choose 'Mi3_Aligned' or 'T3i_Aligned'.")
 
         self.dataset_folder = dataset_folder
         self.dataset_type = dataset_type
+        self.batch_size = batch_size
+        self.target_size = target_size
+        self.test_data_paths = self.__get_test_data_paths()
 
-        test_data_folder = os.path.join(dataset_folder, dataset_type)
+    def __len__(self):
+        return int(np.ceil(len(self.test_data_paths) / self.batch_size))
 
-        self.__test_data_clean = self.__load_test_data(test_data_folder, 'Reference')
-        self.__test_data_noisy = self.__load_test_data(test_data_folder, 'Noisy')
+    def __getitem__(self, index):
+        batch_paths = self.test_data_paths[index * self.batch_size:(index + 1) * self.batch_size]
 
-    def __load_test_data(self, folder, data_type, target_size=(5328, 3000)):
-        test_data = []
+        test_data_clean = []
+        test_data_noisy = []
 
-        # Store batch names to track the processed batches
-        processed_batches = set()
+        for image_path in batch_paths:
+            image_clean = cv2.imread(image_path[0])
+            image_noisy = cv2.imread(image_path[1])
 
-        test_data_paths = glob.glob(os.path.join(folder, 'Batch_*', f'*{data_type}.bmp'))
+            if image_clean is not None and image_noisy is not None:
+                image_clean = cv2.resize(image_clean, self.target_size)
+                image_noisy = cv2.resize(image_noisy, self.target_size)
 
-        for image_path in test_data_paths:
-            # Extract the batch name from the image path
-            batch_name = os.path.dirname(image_path)
+                test_data_clean.append(image_clean)
+                test_data_noisy.append(image_noisy)
 
-            if batch_name not in processed_batches:
-                # Only process one image from each batch (in the RENOIR dataset there are 2 noisy images fo each batch)
-                processed_batches.add(batch_name)
+        return np.array(test_data_clean), np.array(test_data_noisy)
 
-                image = cv2.imread(image_path)
+    def __get_test_data_paths(self):
+        test_data_paths = []
 
-                if image is not None:
-                    # Resize the image to the target size
-                    image = cv2.resize(image, target_size)
-                    test_data.append(image)
+        test_data_folder = os.path.join(self.dataset_folder, self.dataset_type)
 
-        return np.array(test_data)
+        for batch_folder in glob.glob(os.path.join(test_data_folder, 'Batch_*')):
+            clean_image_path = glob.glob(os.path.join(batch_folder, '*Reference.bmp'))
+            noisy_image_path = glob.glob(os.path.join(batch_folder, '*Noisy.bmp'))
 
-    @property
-    def test_data_clean(self):
-        return self.__test_data_clean
+            if clean_image_path and noisy_image_path:
+                test_data_paths.append((clean_image_path[0], noisy_image_path[0]))
 
-    @property
-    def test_data_noisy(self):
-        return self.__test_data_noisy
+        return test_data_paths
