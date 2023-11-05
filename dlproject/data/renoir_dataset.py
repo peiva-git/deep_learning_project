@@ -1,11 +1,12 @@
+import math
 import os
 import glob
 import cv2
 import numpy as np
-from tensorflow.keras.utils import Sequence
+import tensorflow as tf
 
 
-class RENOIRDatasetSequence(Sequence):
+class RENOIRDatasetSequence(tf.keras.utils.Sequence):
     def __init__(self, dataset_folder, dataset_type, batch_size, target_size=(5328, 3000)):
         if dataset_type not in ['Mi3_Aligned', 'T3i_Aligned']:
             raise ValueError("Invalid dataset type. Choose 'Mi3_Aligned' or 'T3i_Aligned'.")
@@ -17,10 +18,12 @@ class RENOIRDatasetSequence(Sequence):
         self.test_data_paths = self.__get_test_data_paths()
 
     def __len__(self):
-        return int(np.ceil(len(self.test_data_paths) / self.batch_size))
+        return math.ceil(len(self.test_data_paths) / self.batch_size)
 
     def __getitem__(self, index):
-        batch_paths = self.test_data_paths[index * self.batch_size:(index + 1) * self.batch_size]
+        low = index * self.batch_size
+        high = min(low + self.batch_size, len(self.test_data_paths))
+        batch_paths = self.test_data_paths[low:high]
 
         test_data_clean = []
         test_data_noisy = []
