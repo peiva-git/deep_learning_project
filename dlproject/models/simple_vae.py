@@ -38,7 +38,7 @@ class SimpleVAE:
     def sample(self, args: (tf.Tensor, tf.Tensor)) -> tf.Tensor:
         mean, log_sigma = args
         epsilon = tf.keras.backend.random_normal(
-            shape=(mean.shape[0], self.__latent_dim),
+            shape=(tf.shape(mean)[0], self.__latent_dim),
             mean=0.,
             stddev=0.1
         )
