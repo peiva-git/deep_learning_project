@@ -14,13 +14,13 @@ class SimpleVAE:
         self.__z = tf.keras.layers.Lambda(self.sample)((self.__z_mean, self.__z_log_sigma))
 
         # encoder
-        self.__encoder = tf.keras.Model(inputs, [self.__z_mean, self.__z_log_sigma, self.__z], name='encoder')
+        self.__encoder = tf.keras.Model(inputs, [self.__z_mean, self.__z_log_sigma, self.__z], name='vae_encoder')
 
         # decoder
         latent_inputs = tf.keras.layers.Input(shape=(latent_dim,), name='z_sampling')
         x = tf.keras.layers.Dense(intermediate_layer_dim, activation='relu')(latent_inputs)
         outputs = tf.keras.layers.Dense(input_dim, activation='sigmoid')(x)
-        self.__decoder = tf.keras.Model(latent_inputs, outputs)
+        self.__decoder = tf.keras.Model(latent_inputs, outputs, name='vae_decoder')
 
         # VAE model
         outputs = self.__decoder(self.__encoder(inputs)[2])
@@ -55,3 +55,41 @@ class SimpleVAE:
     @property
     def vae(self) -> tf.keras.Model:
         return self.__vae
+
+
+class SimpleVAERewrite(tf.keras.Model):
+    def __init__(self,
+                 input_dim: int = 28 * 28,
+                 intermediate_layer_dim: int = 64,
+                 latent_dim: int = 2,
+                 *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.intermediate_layer = tf.keras.layers.Dense(intermediate_layer_dim, activation='relu')
+        self.z_mean_encoding = tf.keras.layers.Dense(latent_dim)
+        self.z_log_sigma_encoding = tf.keras.layers.Dense(latent_dim)
+        self.z_encoding = tf.keras.layers.Lambda(self.sample)
+
+        # encoder
+        self.__encoder =
+
+        self.intermediate_decoding = tf.keras.layers.Dense(intermediate_layer_dim, activation='relu')
+        self.decoded = tf.keras.layers.Dense(input_dim, activation='sigmoid')
+
+    def call(self, inputs, training=None, mask=None):
+        h = self.intermediate_layer(inputs)
+        z_mean = self.z_mean_encoding(h)
+        z_log_sigma = self.z_log_sigma_encoding(h)
+        z = self.z_encoding((z_mean, z_log_sigma))
+
+        x = self.intermediate_decoding(z)
+        return self.decoded(x)
+
+    def sample(self, args: (tf.Tensor, tf.Tensor)) -> tf.Tensor:
+        mean, log_sigma = args
+        epsilon = tf.keras.backend.random_normal(
+            shape=(tf.shape(mean)[0], self.__latent_dim),
+            mean=0.,
+            stddev=0.1
+        )
+        return mean + tf.exp(log_sigma) * epsilon
+
