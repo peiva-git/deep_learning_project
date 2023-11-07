@@ -11,16 +11,16 @@ class SimpleVAE:
         h = tf.keras.layers.Dense(intermediate_layer_dim, activation='relu')(inputs)
         self.__z_mean = tf.keras.layers.Dense(latent_dim)(h)
         self.__z_log_sigma = tf.keras.layers.Dense(latent_dim)(h)
-        self.__z = tf.keras.layers.Lambda(self.sample)((self.__z_mean, self.__z_log_sigma))
+        self.__z = tf.keras.layers.Lambda(sample)((self.__z_mean, self.__z_log_sigma, latent_dim))
 
         # encoder
-        self.__encoder = tf.keras.Model(inputs, [self.__z_mean, self.__z_log_sigma, self.__z], name='encoder')
+        self.__encoder = tf.keras.Model(inputs, [self.__z_mean, self.__z_log_sigma, self.__z], name='vae_encoder')
 
         # decoder
         latent_inputs = tf.keras.layers.Input(shape=(latent_dim,), name='z_sampling')
         x = tf.keras.layers.Dense(intermediate_layer_dim, activation='relu')(latent_inputs)
         outputs = tf.keras.layers.Dense(input_dim, activation='sigmoid')(x)
-        self.__decoder = tf.keras.Model(latent_inputs, outputs)
+        self.__decoder = tf.keras.Model(latent_inputs, outputs, name='vae_decoder')
 
         # VAE model
         outputs = self.__decoder(self.__encoder(inputs)[2])
@@ -35,15 +35,6 @@ class SimpleVAE:
         vae_loss = tf.reduce_mean(reconstruction_loss + kl_loss)
         self.__vae.add_loss(vae_loss)
 
-    def sample(self, args: (tf.Tensor, tf.Tensor)) -> tf.Tensor:
-        mean, log_sigma = args
-        epsilon = tf.keras.backend.random_normal(
-            shape=(tf.shape(mean)[0], self.__latent_dim),
-            mean=0.,
-            stddev=0.1
-        )
-        return mean + tf.exp(log_sigma) * epsilon
-
     @property
     def encoder(self) -> tf.keras.Model:
         return self.__encoder
@@ -55,3 +46,13 @@ class SimpleVAE:
     @property
     def vae(self) -> tf.keras.Model:
         return self.__vae
+
+
+def sample(args: (tf.Tensor, tf.Tensor, int)) -> tf.Tensor:
+    mean, log_sigma, latent_dim = args
+    epsilon = tf.keras.backend.random_normal(
+        shape=(tf.shape(mean)[0], latent_dim),
+        mean=0.,
+        stddev=0.1
+    )
+    return mean + tf.exp(log_sigma) * epsilon
