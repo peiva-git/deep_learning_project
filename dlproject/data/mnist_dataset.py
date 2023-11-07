@@ -3,10 +3,6 @@ import numpy as np
 
 
 class MNISTDatasetBuilder:
-    __train_x: np.ndarray
-    __test_x: np.ndarray
-    __train_y: np.ndarray
-    __test_y: np.ndarray
     __noisy_train_data: np.ndarray
     __noisy_test_data: np.ndarray
 
