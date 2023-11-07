@@ -13,7 +13,7 @@ def show_mnist_scatter_plot(x_test: np.ndarray, y_test: np.ndarray, encoder: tf.
     plt.show()
 
 
-def show_latent_plane_sampling_digits(decoder: tf.keras.Model, number_of_digits: int = 15, digit_size: int = 28):
+def show_latent_plane_sampled_digits(decoder: tf.keras.Model, number_of_digits: int = 15, digit_size: int = 28):
     figure = np.zeros((digit_size * number_of_digits, digit_size * number_of_digits))
     grid_x = np.linspace(-1, 1, number_of_digits)
     grid_y = np.linspace(-1, 1, number_of_digits)
