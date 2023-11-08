@@ -7,14 +7,14 @@ import tensorflow as tf
 
 
 class RENOIRDatasetSequence(tf.keras.utils.Sequence):
-    def __init__(self, dataset_folder, dataset_type, batch_size, target_size=(5328, 3000)):
+    def __init__(self, dataset_folder, dataset_type, batch_size, patch_size=(256, 256)):
         if dataset_type not in ['Mi3_Aligned', 'T3i_Aligned']:
             raise ValueError("Invalid dataset type. Choose 'Mi3_Aligned' or 'T3i_Aligned'.")
 
         self.dataset_folder = dataset_folder
         self.dataset_type = dataset_type
         self.batch_size = batch_size
-        self.target_size = target_size
+        self.patch_size = patch_size
         self.test_data_paths = self.__get_test_data_paths()
 
     def __len__(self):
@@ -33,11 +33,12 @@ class RENOIRDatasetSequence(tf.keras.utils.Sequence):
             image_noisy = cv2.imread(image_path[1])
 
             if image_clean is not None and image_noisy is not None:
-                image_clean = cv2.resize(image_clean, self.target_size)
-                image_noisy = cv2.resize(image_noisy, self.target_size)
+                # Split the images into patches
+                patches_clean = self.split_into_patches(image_clean, self.patch_size)
+                patches_noisy = self.split_into_patches(image_noisy, self.patch_size)
 
-                test_data_clean.append(image_clean)
-                test_data_noisy.append(image_noisy)
+                test_data_clean.extend(patches_clean)
+                test_data_noisy.extend(patches_noisy)
 
         return np.array(test_data_clean), np.array(test_data_noisy)
 
@@ -54,3 +55,16 @@ class RENOIRDatasetSequence(tf.keras.utils.Sequence):
                 test_data_paths.append((clean_image_path[0], noisy_image_path[0]))
 
         return test_data_paths
+
+    def split_into_patches(self, image, patch_size):
+        patches = []
+
+        height, width, _ = image.shape
+
+        for y in range(0, height, patch_size[0]):
+            for x in range(0, width, patch_size[1]):
+                patch = image[y:y + patch_size[0], x:x + patch_size[1]]
+                if patch.shape[:2] == patch_size:
+                    patches.append(patch)
+
+        return patches
