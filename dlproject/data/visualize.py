@@ -5,7 +5,7 @@ import tensorflow as tf
 import numpy as np
 
 
-def show_mnist_scatter_plot(x_test: np.ndarray, y_test: np.ndarray, encoder: tf.keras.Model):
+def show_encoder_scatter_plot(x_test: np.ndarray, y_test: np.ndarray, encoder: tf.keras.Model):
     x_test_encoded = encoder.predict(x_test)[2]
     plt.figure(figsize=(6, 6))
     plt.scatter(x_test_encoded[:, 0], x_test_encoded[:, 1], c=y_test)
@@ -13,18 +13,22 @@ def show_mnist_scatter_plot(x_test: np.ndarray, y_test: np.ndarray, encoder: tf.
     plt.show()
 
 
-def show_latent_plane_sampled_digits(decoder: tf.keras.Model, number_of_digits: int = 15, digit_size: int = 28):
-    figure = np.zeros((digit_size * number_of_digits, digit_size * number_of_digits))
-    grid_x = np.linspace(-1, 1, number_of_digits)
-    grid_y = np.linspace(-1, 1, number_of_digits)
+def show_latent_plane_sampled_points(decoder: tf.keras.Model,
+                                     x_sampling_interval: (int, int),
+                                     y_sampling_interval: (int, int),
+                                     number_of_figures: int = 15,
+                                     figure_size: int = 28):
+    figure = np.zeros((figure_size * number_of_figures, figure_size * number_of_figures))
+    grid_x = np.linspace(x_sampling_interval[0], x_sampling_interval[1], number_of_figures)
+    grid_y = np.linspace(y_sampling_interval[0], y_sampling_interval[1], number_of_figures)
     for i, yi in enumerate(grid_x):
         for j, xi in enumerate(grid_y):
             z_sample = np.array([[xi, yi]])
             x_decoded = decoder(z_sample)
-            digit = tf.reshape(x_decoded[0], (digit_size, digit_size))
+            digit = tf.reshape(x_decoded[0], (figure_size, figure_size))
             figure[
-                i * digit_size: (i + 1) * digit_size,
-                j * digit_size: (j + 1) * digit_size
+            i * figure_size: (i + 1) * figure_size,
+            j * figure_size: (j + 1) * figure_size
             ] = digit
     plt.figure(figsize=(10, 10))
     plt.imshow(figure)

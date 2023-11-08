@@ -18,10 +18,10 @@ class CIFAR10DatasetBuilder:
     def preprocess_dataset_simple_vae(self, noise_factor: float = 0.4):
         self.__train_x = tf.image.rgb_to_grayscale(self.__train_x)
         self.__test_x = tf.image.rgb_to_grayscale(self.__test_x)
-        self.__train_x = self.__train_x.astype(np.float32) / 255.
-        self.__test_x = self.__test_x.astype(np.float32) / 255.
-        self.__train_x = self.__train_x.reshape((len(self.__train_x), np.prod(self.__train_x.shape[1:])))
-        self.__test_x = self.__test_x.reshape((len(self.__test_x), np.prod(self.__test_x.shape[1:])))
+        self.__train_x = tf.cast(self.__train_x, tf.float32) / 255.
+        self.__test_x = tf.cast(self.__test_x, tf.float32) / 255.
+        self.__train_x = tf.reshape(self.__train_x, (len(self.__train_x), np.prod(self.__train_x.shape[1:])))
+        self.__test_x = tf.reshape(self.__test_x, (len(self.__test_x), np.prod(self.__test_x.shape[1:])))
 
     @staticmethod
     def __preprocess_array(array: np.ndarray) -> np.ndarray:
