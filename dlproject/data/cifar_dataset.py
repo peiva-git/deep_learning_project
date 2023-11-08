@@ -1,3 +1,4 @@
+from skimage.color import rgb2gray
 import tensorflow as tf
 import numpy as np
 
@@ -16,10 +17,10 @@ class CIFAR10DatasetBuilder:
         self.__noisy_test_data = self.__add_noise(self.__test_x, noise_factor)
 
     def preprocess_dataset_simple_vae(self, noise_factor: float = 0.4):
-        self.__train_x = tf.image.rgb_to_grayscale(self.__train_x)
-        self.__test_x = tf.image.rgb_to_grayscale(self.__test_x)
-        self.__train_x = tf.cast(self.__train_x, tf.float32) / 255.
-        self.__test_x = tf.cast(self.__test_x, tf.float32) / 255.
+        self.__train_x = np.array([rgb2gray(train_image) for train_image in self.__train_x])
+        self.__test_x = np.array([rgb2gray(test_image) for test_image in self.__test_x])
+        self.__train_x = self.__preprocess_array(self.__train_x)
+        self.__test_x = self.__preprocess_array(self.__test_x)
         self.__train_x = tf.reshape(self.__train_x, (len(self.__train_x), np.prod(self.__train_x.shape[1:])))
         self.__test_x = tf.reshape(self.__test_x, (len(self.__test_x), np.prod(self.__test_x.shape[1:])))
 
