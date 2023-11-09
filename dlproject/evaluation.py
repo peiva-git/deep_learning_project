@@ -6,7 +6,7 @@ from skimage.metrics import structural_similarity as ssim
 import numpy as np
 
 
-def mean_psnr(test_data, reconstructed_test_data):
+def compute_mean_psnr(test_data, reconstructed_test_data):
     if len(test_data) != len(reconstructed_test_data):
         raise ValueError('Input lists must have the same length')
 
@@ -16,7 +16,7 @@ def mean_psnr(test_data, reconstructed_test_data):
     return np.mean(psnr_values)
 
 
-def mean_ssim(test_data, reconstructed_test_data):
+def compute_mean_ssim(test_data, reconstructed_test_data):
     if len(test_data) != len(reconstructed_test_data):
         raise ValueError('Input lists must have the same length')
 
@@ -32,8 +32,8 @@ def compute_psnr_ssim_metrics_from_directories(original_dir, restored_dir):
 
     num_pairs = min(len(original_images), len(restored_images))
 
-    ssim_value = 0
-    psnr_value = 0
+    ssim_values = []
+    psnr_values = []
 
     for i in range(num_pairs):
         original_image_path = os.path.join(original_dir, original_images[i])
@@ -42,15 +42,15 @@ def compute_psnr_ssim_metrics_from_directories(original_dir, restored_dir):
         original_image = cv2.imread(original_image_path)
         restored_image = cv2.imread(restored_image_path)
 
-        psnr_value += psnr(restored_image, original_image)
-        ssim_value += ssim(restored_image, original_image, channel_axis=2)
+        psnr_values.append(psnr(restored_image, original_image))
+        ssim_values.append(ssim(restored_image, original_image, channel_axis=2))
 
-    mean_computed_psnr = psnr_value / num_pairs
-    mean_computed_ssim = ssim_value / num_pairs
+    mean_psnr = np.mean(psnr_values)
+    mean_ssim = np.mean(ssim_values)
+    std_psnr = np.std(psnr_values)
+    std_ssim = np.std(ssim_values)
 
-    print(psnr_value, ssim_value, num_pairs)
-
-    return mean_computed_psnr, mean_computed_ssim
+    return mean_psnr, mean_ssim, std_psnr, std_ssim
 
 
 def sort_paths_by_index(paths):
