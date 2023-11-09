@@ -36,7 +36,6 @@ def compute_psnr_ssim_metrics_from_directories(original_dir, restored_dir):
     psnr_value = 0
 
     for i in range(num_pairs):
-        i = 1
         original_image_path = os.path.join(original_dir, original_images[i])
         restored_image_path = os.path.join(restored_dir, restored_images[i])
 
