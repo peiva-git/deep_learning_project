@@ -12,7 +12,10 @@ Exam project for the Deep Learning course @ UniTS
 The quickest way to get started is to train the models using the provided Jupyter Notebooks.
 You can try them out quickly on Google Colab:
 - Simple Autoencoder [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/peiva-git/deep_learning_project/blob/main/simple_model.ipynb)
-- Variational Auto-Encoder [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/peiva-git/deep_learning_project/blob/main/simple_vae.ipynb)
+- Variational Auto-Encoder trained on MNIST [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/peiva-git/deep_learning_project/blob/main/simple_vae_mnist.ipynb)
+- Variational Auto-Encoder trained on CIFAR10 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/peiva-git/deep_learning_project/blob/main/simple_vae_cifar10.ipynb)
+- De-noising Variational Auto-Encoder trained on MNIST [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/peiva-git/deep_learning_project/blob/main/denoising_simple_vae_mnist.ipynb) 
+- Restormer [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/peiva-git/deep_learning_project/blob/main/Restormer.ipynb)
 
 Otherwise, check out the [setup section](#project-setup).
 
