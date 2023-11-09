@@ -1,5 +1,4 @@
 import random
-
 import matplotlib.pyplot as plt
 import tensorflow as tf
 import numpy as np
@@ -56,7 +55,7 @@ def display_images(test_data, noisy_test_data, trained_model, image_indexes, num
         plt.axis('off')
 
         # Predicted output from the autoencoder
-        predicted_output = trained_model.model.predict(noisy_test_data[idx].reshape(1, 32, 32, 3))
+        predicted_output = trained_model.predict(noisy_test_data[idx].reshape(1, 32, 32, 3))
         plt.subplot(3, num_images, 2 * num_images + i + 1)
         plt.imshow(predicted_output[0])
         plt.axis('off')
