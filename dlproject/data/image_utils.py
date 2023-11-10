@@ -2,8 +2,10 @@ import os
 import cv2
 
 
-# Save loaded_images into a specified directory
 def save_images_to_directory(images, directory_path, image_prefix='image', image_format='png'):
+    """
+    Save images into a specified directory
+    """
     if not os.path.exists(directory_path):
         os.makedirs(directory_path)
 
@@ -15,8 +17,10 @@ def save_images_to_directory(images, directory_path, image_prefix='image', image
     print(f"Images saved to {directory_path}")
 
 
-# Read loaded_images from a directory and return them
 def read_images_from_directory(directory_path):
+    """
+    Read images from a directory
+    """
     images = []
 
     if not os.path.exists(directory_path):
