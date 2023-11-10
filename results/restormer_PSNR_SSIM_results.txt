@@ -1,0 +1,4 @@
+Mean PSNR: 32.74
+Mean SSIM: 0.8325
+Std PSNR: 4.6628
+Std SSIM: 0.0856
