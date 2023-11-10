@@ -15,9 +15,12 @@ class MNISTDatasetBuilder:
         self.__noisy_train_data = self.__add_noise(self.__train_x, noise_factor)
         self.__noisy_test_data = self.__add_noise(self.__test_x, noise_factor)
 
-    def preprocess_dataset_simple_vae(self, noise_factor: float = 0.4):
+    def preprocess_dataset_simple_vae(self, noise_factor: float = None):
         self.__train_x = self.__train_x.astype(np.float32) / 255.
         self.__test_x = self.__test_x.astype(np.float32) / 255.
+        if noise_factor is not None:
+            self.__noisy_train_data = self.__add_noise(self.__noisy_train_data, noise_factor)
+            self.__noisy_test_data = self.__add_noise(self.__noisy_test_data, noise_factor)
         self.__train_x = self.__train_x.reshape((len(self.__train_x), np.prod(self.__train_x.shape[1:])))
         self.__test_x = self.__test_x.reshape((len(self.__test_x), np.prod(self.__test_x.shape[1:])))
 
