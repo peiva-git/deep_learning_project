@@ -23,7 +23,7 @@ class MNISTDatasetBuilder:
             self.__noisy_test_data = self.__add_noise(self.__test_x, noise_factor)
         self.__train_x = self.__train_x.reshape((len(self.__train_x), np.prod(self.__train_x.shape[1:])))
         self.__test_x = self.__test_x.reshape((len(self.__test_x), np.prod(self.__test_x.shape[1:])))
-        self.__noisy_train_data = self.__noisy_test_data.reshape(
+        self.__noisy_train_data = self.__noisy_train_data.reshape(
             (len(self.__noisy_train_data), np.prod(self.__noisy_train_data.shape[1:]))
         )
         self.__noisy_test_data = self.__noisy_test_data.reshape(
