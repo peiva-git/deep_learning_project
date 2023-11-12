@@ -1,5 +1,8 @@
+import argparse
 import os
 import glob
+import pathlib
+
 import cv2
 
 
@@ -60,3 +63,45 @@ def split_into_patches(image, patch_size):
 def preprocess_renoir_dataset(dataset_folder, dataset_type, patch_size=(1024, 1024), save_patches_folder='./patches'):
     # Extract and save patches from the RENOIR dataset
     extract_and_save_patches(dataset_folder, dataset_type, patch_size, save_patches_folder)
+
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        '--dataset_dir',
+        help='Root directory of the Renoir dataset',
+        type=str,
+        required=True
+    )
+    parser.add_argument(
+        '--dataset_type',
+        help='Which version of the dataset to pre-process',
+        type=str,
+        choices=['Mi3_Aligned', 'T3i_Aligned'],
+        required=True
+    )
+    parser.add_argument(
+        '--patch_height',
+        help='Height of the resulting patches',
+        type=int,
+        required=True,
+        default=1024
+    )
+    parser.add_argument(
+        '--patch_width',
+        help='Width of the resulting patches',
+        type=int,
+        required=True,
+        default=1024
+    )
+    parser.add_argument(
+        '--save_dir',
+        help='Where to save the resulting patches',
+        type=str,
+        required=True
+    )
+    args = parser.parse_args()
+
+    dataset_dir = pathlib.Path(args.dataset_dir)
+    save_dir = pathlib.Path(args.save_dir)
+    extract_and_save_patches(str(dataset_dir), args.dataset_type, (args.patch_height, args.patch_width), str(save_dir))
