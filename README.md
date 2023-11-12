@@ -11,8 +11,8 @@ Exam project for the Deep Learning course @ UniTS
 
 The quickest way to get started is to train the models using the provided Jupyter Notebooks.
 You can try them out quickly on Google Colab:
-- Denoising Autoencoder trained on MNIST [![Open In Colab](https://colab.research.google.com/github/peiva-git/deep_learning_project/blob/44-separare-i-notebook-in-file-separati/simple_ae_mnist.ipynb)
-- Denoising Autoencoder trained on CIFAR10 [![Open In Colab](https://colab.research.google.com/github/peiva-git/deep_learning_project/blob/44-separare-i-notebook-in-file-separati/simple_ae_cifar10.ipynb)
+- Denoising Autoencoder trained on MNIST [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/peiva-git/deep_learning_project/blob/44-separare-i-notebook-in-file-separati/simple_ae_mnist.ipynb)
+- Denoising Autoencoder trained on CIFAR10 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/peiva-git/deep_learning_project/blob/44-separare-i-notebook-in-file-separati/simple_ae_cifar10.ipynb)
 - Variational Autoencoder trained on MNIST [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/peiva-git/deep_learning_project/blob/main/simple_vae_mnist.ipynb)
 - Variational Autoencoder trained on CIFAR10 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/peiva-git/deep_learning_project/blob/main/simple_vae_cifar10.ipynb)
 - Denoising Variational Autoencoder trained on MNIST [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/peiva-git/deep_learning_project/blob/main/denoising_simple_vae_mnist.ipynb) 
