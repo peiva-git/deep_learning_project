@@ -1,0 +1,9 @@
+Gaussian:
+    - mean PSNR
+    - mean SSIM
+Mean:
+    - mean PSNR
+    - mean SSIM
+Bilateral
+    - mean PSNR
+    - mean SSIM
