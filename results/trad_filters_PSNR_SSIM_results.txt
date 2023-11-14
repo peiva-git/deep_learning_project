@@ -1,9 +1,15 @@
 Gaussian:
-    - mean PSNR
-    - mean SSIM
+    - mean PSNR 11.996042316475924
+    - std PSNR 7.295211423584777
+    - mean SSIM 0.2130835528002703
+    - std SSIM 0.21103021788395582
 Mean:
-    - mean PSNR
-    - mean SSIM
+    - mean PSNR 11.762437251654244
+    - std PSNR 6.597600751420471
+    - mean SSIM 0.20943335278159994
+    - std SSIM 0.1650823994207992
 Bilateral
-    - mean PSNR
-    - mean SSIM
+    - mean PSNR 11.795383158055783
+    - std PSNR 6.66752094297147
+    - mean SSIM 0.2169091368309112
+    - std SSIM 0.16894539176555207
