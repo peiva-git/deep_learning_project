@@ -1,4 +1,7 @@
+import argparse
 import os
+import pathlib
+
 import cv2
 from skimage.metrics import peak_signal_noise_ratio as psnr
 from skimage.metrics import structural_similarity as ssim
@@ -55,3 +58,26 @@ def compute_psnr_ssim_metrics_from_directories(original_dir, restored_dir):
 
 def sort_paths_by_index(paths):
     return sorted(paths, key=lambda x: int(x.split('_')[-1].split('.')[0]))
+
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        '--noisy_images_dir',
+        help='Directory containing the noisy images',
+        type=str,
+        required=True
+    )
+    parser.add_argument(
+        '--restored_images_dir',
+        help='Directory containing the restored images',
+        type=str,
+        required=True
+    )
+    args = parser.parse_args()
+
+    original_path = pathlib.Path(args.noisy_images_dir)
+    restored_path = pathlib.Path(args.restored_images_dir)
+    psnr_mean, ssim_mean, psnr_std, ssim_std = \
+        compute_psnr_ssim_metrics_from_directories(str(original_path), str(restored_path))
+    print(f'PSNR mean: {psnr_mean}, std: {psnr_std}\nSSIM mean: {ssim_mean}, std: {ssim_std}')
