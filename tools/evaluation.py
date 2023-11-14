@@ -25,7 +25,7 @@ def compute_mean_ssim(test_data, reconstructed_test_data):
 
     ssim_values = []
     for original, reconstructed in zip(test_data, reconstructed_test_data):
-        ssim_values.append(ssim(original, reconstructed, data_range=255.0, channel_axis=-1))
+        ssim_values.append(ssim(original, reconstructed, data_range=255.0))
     return np.mean(ssim_values)
 
 
